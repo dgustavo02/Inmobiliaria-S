@@ -1,0 +1,37 @@
+<%@ page import="java.sql.Connection" %>
+<%@ page import="java.sql.DriverManager" %>
+<%@ page import="javax.naming.InitialContext" %>
+<%@ page import="javax.sql.DataSource" %>
+
+<%!
+    // Opción 1: Obtener conexión mediante JNDI y DataSource (Recomendado para servidores EE)
+    public Connection getConexionJNDI() {
+        Connection conn = null;
+        try {
+            InitialContext ctx = new InitialContext();
+            // Cambia el nombre JNDI según la configuración de tu servidor (GlassFish, Tomcat, WildFly, etc.)
+            DataSource ds = (DataSource) ctx.lookup("jdbc/MiBaseDeDatos");
+            conn = ds.getConnection();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return conn;
+    }
+
+    // Opción 2: Conexión directa mediante JDBC Driver Manager (Para pruebas rápidas)
+    public Connection getConexionDirecta() {
+        Connection conn = null;
+        try {
+            // Reemplaza con el driver de tu BD (ej. MySQL: com.mysql.cj.jdbc.Driver)
+            Class.forName("com.mysql.cj.jdbc.Driver"); 
+            String url = "jdbc:mysql://localhost:3306/nombre_bd";
+            String usuario = "root";
+            String password = "tu_password";
+            
+            conn = DriverManager.getConnection(url, usuario, password);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return conn;
+    }
+%>

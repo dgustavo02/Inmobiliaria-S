@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fincar Ltda. | Inmobiliaria Bucaramanga</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-navy: #0b192c;
+            --accent-red: #e63946;
+            --accent-red-hover: #c92a37;
+            --bg-light: #f8f9fa;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #2b2d42;
+            background-color: var(--bg-light);
+        }
+
+        /* Top Bar Modernizada */
+        .top-bar {
+            background-color: var(--primary-navy);
+            color: #a0aec0;
+            font-size: 0.85rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .top-bar a {
+            color: #e2e8f0;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        .top-bar a:hover {
+            color: var(--accent-red);
+        }
+
+        /* Navbar Flotante / Minimalista */
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+        .navbar-brand {
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: var(--primary-navy);
+        }
+        .nav-link {
+            color: #4a5568;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 0.5rem 1rem !important;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: var(--accent-red);
+        }
+
+        /* Hero Section Avanzada */
+        .hero-section {
+            position: relative;
+            background: linear-gradient(135deg, rgba(11, 25, 44, 0.92) 0%, rgba(15, 32, 67, 0.82) 100%), 
+                        url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+            padding: 70px 0;
+            overflow: hidden;
+        }
+
+        .hero-title {
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -1px;
+        }
+
+        .highlight-text {
+            color: var(--accent-red);
+        }
+
+        /* Tarjeta del Buscador Moderno */
+        .search-card {
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+            padding: 30px;
+        }
+
+        /* Segmented Control (Arriendo / Venta Tabs) */
+        .type-selector {
+            background-color: #f1f5f9;
+            padding: 5px;
+            border-radius: 12px;
+            display: flex;
+            gap: 5px;
+        }
+        .type-selector .btn-check + .btn {
+            border: none;
+            border-radius: 9px;
+            color: #64748b;
+            font-weight: 600;
+            padding: 10px;
+            transition: all 0.3s ease;
+        }
+        .type-selector .btn-check:checked + .btn {
+            background-color: #ffffff;
+            color: var(--accent-red);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        /* Input con Íconos Internos */
+        .input-icon-group {
+            position: relative;
+        }
+        .input-icon-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            z-index: 4;
+        }
+        .input-icon-group .form-control, 
+        .input-icon-group .form-select {
+            padding-left: 42px;
+            height: 48px;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            font-size: 0.95rem;
+        }
+        .input-icon-group .form-control:focus, 
+        .input-icon-group .form-select:focus {
+            border-color: var(--accent-red);
+            box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.15);
+        }
+
+        .btn-action {
+            background-color: var(--accent-red);
+            color: #fff;
+            font-weight: 700;
+            height: 50px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        .btn-action:hover {
+            background-color: var(--accent-red-hover);
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(230, 57, 70, 0.3);
+        }
+
+        /* Estilos de Tarjetas de Propiedades (Resultados) */
+        .property-card {
+            background: #ffffff;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        .property-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+        }
+        .property-img-wrapper {
+            position: relative;
+            height: 220px;
+            overflow: hidden;
+        }
+        .property-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .property-card:hover .property-img-wrapper img {
+            transform: scale(1.05);
+        }
+        .property-badge-type {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(11, 25, 44, 0.85);
+            backdrop-filter: blur(5px);
+            color: #fff;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 6px 12px;
+            border-radius: 20px;
+            text-transform: uppercase;
+        }
+        .property-badge-code {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 6px;
+        }
+        .property-features {
+            display: flex;
+            gap: 15px;
+            font-size: 0.85rem;
+            color: #64748b;
+            border-top: 1px solid #f1f5f9;
+            border-bottom: 1px solid #f1f5f9;
+            padding: 10px 0;
+            margin: 12px 0;
+        }
+        .property-price {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--primary-navy);
+        }
+
+        /* Tarjetas de Acceso Rápido Flotantes */
+        .feature-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+            border-color: transparent;
+        }
+        .icon-box {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar py-2 d-none d-lg-block">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div class="d-flex gap-4">
+                <span><i class="fa-solid fa-location-dot me-2 text-danger"></i>Calle 36 No. 22-40, Bucaramanga</span>
+                <span><i class="fa-solid fa-phone me-2 text-danger"></i>PBX: (607) 697 0717</span>
+            </div>
+            <div class="d-flex gap-4">
+                <a href="https://wa.me/573156008537" target="_blank"><i class="fa-brands fa-whatsapp text-success me-1"></i> WhatsApp: 315 600 8537</a>
+                <a href="#portal"><i class="fa-solid fa-lock me-1"></i> Portal de Clientes</a>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand fs-3" href="#">
+                BUCARAMANGA INMOBILIARIA <span class="highlight-text">LTDA.</span>
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navContent">
+                <ul class="navbar-nav ms-auto me-lg-3">
+                    <li class="nav-item"><a class="nav-link active" href="#resultados">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Registrarse</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Arriendos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Ventas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Avalúos</a></li>
+                </ul>
+                <a href="#consignar" class="btn btn-action px-4 d-inline-flex align-items-center justify-content-center">Iniciar</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center gy-5">
+                
+                <div class="col-lg-6 text-white">
+                    <span class="badge bg-white text-dark px-3 py-2 rounded-pill fw-bold mb-3 shadow-sm">
+                        <i class="fa-solid fa-star text-warning me-1"></i> Líderes Inmobiliarios en Santander
+                    </span>
+                    <h1 class="display-4 hero-title mb-4">
+                        Encuentra el lugar perfecto para <span class="highlight-text">tu próximo paso</span>
+                    </h1>
+                    <p class="fs-5 text-light opacity-75 mb-4">
+                        Más de 30 años conectando personas con sus espacios ideales en Bucaramanga y su área metropolitana.
+                    </p>
+                    
+                    <div class="d-flex flex-wrap gap-3">
+                        <!--<a href="#factura" class="btn btn-outline-light rounded-3 px-4 py-2 border-2 fw-semibold">
+                            <i class="fa-solid fa-file-invoice me-2"></i> Pagar Factura
+                        </a>//-->
+                        <a href="#contacto" class="btn btn-link text-white text-decoration-none fw-semibold">
+                            Contactar Asesor <i class="fa-solid fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="search-card">
+                        
+                        <div class="type-selector mb-4">
+                            <input type="radio" class="btn-check" name="offerType" id="rentOpt" checked>
+                            <label class="btn w-50" for="rentOpt"><i class="fa-solid fa-key me-2"></i>Arriendo</label>
+                            
+                            <input type="radio" class="btn-check" name="offerType" id="saleOpt">
+                            <label class="btn w-50" for="saleOpt"><i class="fa-solid fa-house me-2"></i>Venta</label>
+                        </div>
+
+                        <form>
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <label class="form-label small fw-bold text-uppercase text-muted">Tipo de Propiedad</label>
+                                    <div class="input-icon-group">
+                                        <i class="fa-solid fa-building"></i>
+                                        <select class="form-select">
+                                            <option selected>Todos los inmuebles</option>
+                                            <option>Apartamento</option>
+                                            <option>Casa</option>
+                                            <option>Local Comercial</option>
+                                            <option>Oficina</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold text-uppercase text-muted">Sector / Zona</label>
+                                    <div class="input-icon-group">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                        <select class="form-select">
+                                            <option selected>Bucaramanga</option>
+                                            <option>Piedecuesta</option>
+                                            <option>Giron</option>
+                                            <option>Bogotá</option>
+                                            <option>Floridablanca</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold text-uppercase text-muted">Código Inmueble</label>
+                                    <div class="input-icon-group">
+                                        <i class="fa-solid fa-barcode"></i>
+                                        <input type="text" class="form-control" placeholder="Ej. 7025911">
+                                    </div>
+                                </div>
+
+                                <div class="col-12 mt-4">
+                                    <a href="#resultados" class="btn btn-action w-100 fs-6 d-flex align-items-center justify-content-center text-decoration-none">
+                                        <i class="fa-solid fa-magnifying-glass me-2"></i> Buscar Propiedades
+                                    </a>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="resultados" class="py-5">
+        <div class="container">
+            
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 pb-3 border-bottom">
+                <div>
+                    <h3 class="fw-bold mb-1" style="color: var(--primary-navy);">Inmuebles Destacados</h3>
+                    <p class="text-muted small mb-0">Mostrando 3 de 48 propiedades disponibles en Bucaramanga</p>
+                </div>
+                <div class="d-flex align-items-center gap-2 mt-3 mt-md-0">
+                    <label class="small text-muted text-nowrap fw-semibold">Ordenar por:</label>
+                    <select class="form-select form-select-sm border-0 shadow-sm" style="width: auto;">
+                        <option selected>Más recientes</option>
+                        <option>Precio: Menor a Mayor</option>
+                        <option>Precio: Mayor a Menor</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                
+                <div class="col-md-6 col-lg-4">
+                    <div class="property-card h-100 d-flex flex-column">
+                        <div class="property-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80" alt="Apartamento Cabecera">
+                            <span class="property-badge-type">En Arriendo</span>
+                            <span class="property-badge-code">Cód. 70251</span>
+                        </div>
+                        <div class="p-4 d-flex flex-column flex-grow-1">
+                            <div class="mb-2 text-muted small"><i class="fa-solid fa-location-dot me-1 text-danger"></i> Cabecera del Llano, Bucaramanga</div>
+                            <h5 class="fw-bold mb-2">Apartamento Moderno</h5>
+                            
+                            <div class="property-features">
+                                <span><i class="fa-solid fa-bed me-1"></i> 3 Hab</span>
+                                <span><i class="fa-solid fa-bath me-1"></i> 2 Baños</span>
+                                <span><i class="fa-solid fa-ruler-combined me-1"></i> 85 m²</span>
+                                <span><i class="fa-solid fa-car me-1"></i> 1 Park</span>
+                            </div>
+
+                            <div class="mt-auto pt-3 d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="d-block text-muted small">Valor canon</span>
+                                    <span class="property-price">$ 2.100.000</span>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <a href="https://wa.me/573156008537" class="btn btn-outline-success btn-sm rounded-circle p-2" title="Consultar por WhatsApp"><i class="fa-brands fa-whatsapp fs-6"></i></a>
+                                    <a href="#" class="btn btn-outline-dark btn-sm rounded-3 px-3 fw-semibold">Detalles</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="property-card h-100 d-flex flex-column">
+                        <div class="property-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80" alt="Casa Cañaveral">
+                            <span class="property-badge-type bg-danger">En Venta</span>
+                            <span class="property-badge-code">Cód. 81042</span>
+                        </div>
+                        <div class="p-4 d-flex flex-column flex-grow-1">
+                            <div class="mb-2 text-muted small"><i class="fa-solid fa-location-dot me-1 text-danger"></i> Cañaveral, Floridablanca</div>
+                            <h5 class="fw-bold mb-2">Casa Campestre en Conjunto</h5>
+                            
+                            <div class="property-features">
+                                <span><i class="fa-solid fa-bed me-1"></i> 4 Hab</span>
+                                <span><i class="fa-solid fa-bath me-1"></i> 4 Baños</span>
+                                <span><i class="fa-solid fa-ruler-combined me-1"></i> 210 m²</span>
+                                <span><i class="fa-solid fa-car me-1"></i> 2 Park</span>
+                            </div>
+
+                            <div class="mt-auto pt-3 d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="d-block text-muted small">Precio de venta</span>
+                                    <span class="property-price">$ 650.000.000</span>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <a href="https://wa.me/573156008537" class="btn btn-outline-success btn-sm rounded-circle p-2" title="Consultar por WhatsApp"><i class="fa-brands fa-whatsapp fs-6"></i></a>
+                                    <a href="#" class="btn btn-outline-dark btn-sm rounded-3 px-3 fw-semibold">Detalles</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="property-card h-100 d-flex flex-column">
+                        <div class="property-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80" alt="Oficina Centro">
+                            <span class="property-badge-type">En Arriendo</span>
+                            <span class="property-badge-code">Cód. 50123</span>
+                        </div>
+                        <div class="p-4 d-flex flex-column flex-grow-1">
+                            <div class="mb-2 text-muted small"><i class="fa-solid fa-location-dot me-1 text-danger"></i> Sector Centro, Bucaramanga</div>
+                            <h5 class="fw-bold mb-2">Oficina Comercial Acreditada</h5>
+                            
+                            <div class="property-features">
+                                <span><i class="fa-solid fa-layer-group me-1"></i> Libre</span>
+                                <span><i class="fa-solid fa-bath me-1"></i> 1 Baño</span>
+                                <span><i class="fa-solid fa-ruler-combined me-1"></i> 45 m²</span>
+                                <span><i class="fa-solid fa-car me-1"></i> 0 Park</span>
+                            </div>
+
+                            <div class="mt-auto pt-3 d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="d-block text-muted small">Valor canon</span>
+                                    <span class="property-price">$ 1.200.000</span>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <a href="https://wa.me/573156008537" class="btn btn-outline-success btn-sm rounded-circle p-2" title="Consultar por WhatsApp"><i class="fa-brands fa-whatsapp fs-6"></i></a>
+                                    <a href="#" class="btn btn-outline-dark btn-sm rounded-3 px-3 fw-semibold">Detalles</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="text-center mt-5">
+                <button class="btn btn-outline-danger px-4 py-2 rounded-3 fw-bold">
+                    Ver todo el catálogo de inmuebles <i class="fa-solid fa-arrow-down ms-2"></i>
+                </button>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="py-5 bg-white border-top">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="feature-card h-100">
+                        <div class="icon-box bg-danger bg-opacity-10 text-danger">
+                            <i class="fa-solid fa-credit-card"></i>
+                        </div>
+                        <h5 class="fw-bold mb-2">Pago de Arriendo</h5>
+                        <p class="text-muted small mb-3">Descarga tu cupón o realiza tus pagos mensuales de manera rápida y segura.</p>
+                        <a href="#" class="text-danger fw-bold text-decoration-none small">Pagar en línea <i class="fa-solid fa-chevron-right ms-1"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="feature-card h-100">
+                        <div class="icon-box bg-primary bg-opacity-10 text-primary">
+                            <i class="fa-solid fa-user-shield"></i>
+                        </div>
+                        <h5 class="fw-bold mb-2">Portal Propietarios</h5>
+                        <p class="text-muted small mb-3">Accede a tus estados de cuenta, liquidaciones e informes mensuales de tus propiedades.</p>
+                        <a href="#" class="text-primary fw-bold text-decoration-none small">Ingresar al Portal <i class="fa-solid fa-chevron-right ms-1"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="feature-card h-100">
+                        <div class="icon-box bg-success bg-opacity-10 text-success">
+                            <i class="fa-solid fa-calculator"></i>
+                        </div>
+                        <h5 class="fw-bold mb-2">Avalúos Certificados</h5>
+                        <p class="text-muted small mb-3">Solicita la valoración profesional y comercial de tus propiedades con expertos.</p>
+                        <a href="#" class="text-success fw-bold text-decoration-none small">Solicitar Avalúo <i class="fa-solid fa-chevron-right ms-1"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
