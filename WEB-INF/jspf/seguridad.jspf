@@ -1,0 +1,94 @@
+<%@ page import="javax.servlet.http.HttpServletRequest" %>
+<%@ page import="javax.servlet.http.HttpServletResponse" %>
+<%@ page import="javax.servlet.http.HttpSession" %>
+<%@ page import="java.io.IOException" %>
+
+<%!
+    /*
+     * ============================================================
+     * COMPROBAR SESIÓN
+     * ============================================================
+     */
+
+    public static boolean haySesion(HttpSession sesion) {
+
+        return sesion != null
+                && sesion.getAttribute("idUsuario") != null;
+    }
+
+
+    /*
+     * ============================================================
+     * VALIDAR SESIÓN Y ROL
+     * ============================================================
+     */
+
+    public static boolean validarSesion(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            String rolExigido)
+            throws IOException {
+
+        HttpSession sesion =
+            request.getSession(false);
+
+
+        /*
+         * No hay sesión.
+         */
+
+        if (!haySesion(sesion)) {
+
+            response.sendRedirect(
+                request.getContextPath()
+                + "/login.jsp?error=requiere_login"
+            );
+
+            return false;
+        }
+
+
+        /*
+         * Si no se exige un rol específico,
+         * cualquier usuario autenticado puede continuar.
+         */
+
+        if (rolExigido == null
+                || rolExigido.trim().isEmpty()) {
+
+            return true;
+        }
+
+
+        String rolActual =
+            (String) sesion.getAttribute("rol");
+
+
+        /*
+         * Administrador tiene acceso total.
+         */
+
+        if ("Administrador".equals(rolActual)) {
+
+            return true;
+        }
+
+
+        /*
+         * Comprobar rol.
+         */
+
+        if (!rolExigido.equals(rolActual)) {
+
+            response.sendRedirect(
+                request.getContextPath()
+                + "/panel.jsp?error=sin_permiso"
+            );
+
+            return false;
+        }
+
+
+        return true;
+    }
+%>

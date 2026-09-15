@@ -1,0 +1,140 @@
+<%@ page import="java.text.NumberFormat, java.util.Locale" %>
+<%@ page import="java.sql.Connection, java.sql.PreparedStatement, java.sql.ResultSet, java.sql.SQLException" %>
+<%@ page import="java.security.MessageDigest, java.security.NoSuchAlgorithmException, java.security.SecureRandom" %>
+
+<%!
+    // ------------------------------------------------------------------
+    // Contraseñas: SHA-256 + salt aleatorio.
+    // Formato almacenado: salt_hex:hash_hex
+    // ------------------------------------------------------------------
+    public static String cifrar(String claveEnTextoPlano) {
+        if (claveEnTextoPlano == null) return null;
+        try {
+            byte[] salt = new byte[16];
+            new SecureRandom().nextBytes(salt);
+
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            md.update(salt);
+            byte[] hash = md.digest(claveEnTextoPlano.getBytes("UTF-8"));
+
+            return aHex(salt) + ":" + aHex(hash);
+        } catch (NoSuchAlgorithmException e) {
+            throw new IllegalStateException("SHA-256 no está disponible", e);
+        } catch (java.io.UnsupportedEncodingException e) {
+            throw new IllegalStateException("UTF-8 no está disponible", e);
+        }
+    }
+
+    public static boolean verificarClave(String claveEnTextoPlano, String almacenado) {
+        if (claveEnTextoPlano == null || almacenado == null) return false;
+        try {
+            String[] partes = almacenado.split(":", 2);
+            if (partes.length != 2) return false;
+
+            byte[] salt = desdeHex(partes[0]);
+            byte[] hashEsperado = desdeHex(partes[1]);
+
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            md.update(salt);
+            byte[] hashCalculado = md.digest(claveEnTextoPlano.getBytes("UTF-8"));
+
+            return MessageDigest.isEqual(hashEsperado, hashCalculado);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private static String aHex(byte[] bytes) {
+        StringBuilder sb = new StringBuilder(bytes.length * 2);
+        for (byte b : bytes) sb.append(String.format("%02x", b & 0xff));
+        return sb.toString();
+    }
+
+    private static byte[] desdeHex(String hex) {
+        if (hex == null || (hex.length() % 2) != 0) throw new IllegalArgumentException("Hex inválido");
+        byte[] out = new byte[hex.length() / 2];
+        for (int i = 0; i < out.length; i++) {
+            int hi = Character.digit(hex.charAt(i * 2), 16);
+            int lo = Character.digit(hex.charAt(i * 2 + 1), 16);
+            if (hi < 0 || lo < 0) throw new IllegalArgumentException("Hex inválido");
+            out[i] = (byte)((hi << 4) + lo);
+        }
+        return out;
+    }
+
+    // ------------------------------------------------------------------
+    // Formato y escape
+    // ------------------------------------------------------------------
+    public static String moneda(double valor) {
+        NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("es", "CO"));
+        nf.setMaximumFractionDigits(0);
+        return nf.format(valor);
+    }
+
+    public static String esc(String texto) {
+        if (texto == null) return "";
+        return texto.replace("&", "&amp;")
+                    .replace("<", "&lt;")
+                    .replace(">", "&gt;")
+                    .replace("\"", "&quot;")
+                    .replace("'", "&#39;");
+    }
+
+    // ------------------------------------------------------------------
+    // Conversión segura de parámetros de formulario
+    // ------------------------------------------------------------------
+    public static int aEntero(String valor, int porDefecto) {
+        try { return Integer.parseInt(valor.trim()); } catch (Exception e) { return porDefecto; }
+    }
+
+    public static double aDoble(String valor, double porDefecto) {
+        try { return Double.parseDouble(valor.trim()); } catch (Exception e) { return porDefecto; }
+    }
+
+    // ------------------------------------------------------------------
+    // Color de badge de Bootstrap según el estado
+    // ------------------------------------------------------------------
+    public static String colorEstado(String estado) {
+        if (estado == null) return "secondary";
+        switch (estado) {
+            case "DISPONIBLE": case "CONFIRMADA": case "APROBADA":
+            case "VERIFICADO": case "APROBADO": case "ACTIVO": case "ACTIVA":
+                return "success";
+            case "SOLICITADA": case "RADICADA": case "EN_REVISION": case "PENDIENTE":
+                return "warning";
+            case "EN_NEGOCIACION": case "CONTRATO_FIRMADO":
+                return "info";
+            case "VENDIDA": case "ARRENDADA": case "REALIZADA":
+                return "primary";
+            case "CANCELADA": case "RECHAZADA": case "NO_ASISTIO":
+            case "INACTIVA": case "BLOQUEADA": case "INCOMPLETO": case "REVOCADO":
+                return "danger";
+            default:
+                return "secondary";
+        }
+    }
+
+    // ------------------------------------------------------------------
+    // Resuelve el rol principal de usuario.
+    // ------------------------------------------------------------------
+    public static String resolverRolPrincipal(Connection con, int idUsuario) throws SQLException {
+        PreparedStatement ps = con.prepareStatement(
+            "SELECT r.nombre FROM usuario_rol ur JOIN rol r ON r.id_rol = ur.id_rol " +
+            "WHERE ur.id_usuario = ? AND ur.estado = 'ACTIVO'");
+        ps.setInt(1, idUsuario);
+        ResultSet rs = ps.executeQuery();
+        String encontrado = null;
+        boolean tieneAdmin = false, tieneInmobiliaria = false, tieneCliente = false;
+        while (rs.next()) {
+            String nombre = rs.getString("nombre");
+            if ("Administrador".equals(nombre)) tieneAdmin = true;
+            else if ("Inmobiliaria".equals(nombre)) tieneInmobiliaria = true;
+            else if ("Cliente".equals(nombre)) tieneCliente = true;
+        }
+        cerrar(rs, ps);
+        if (tieneAdmin) encontrado = "Administrador";
+        else if (tieneInmobiliaria) encontrado = "Inmobiliaria";
+        else if (tieneCliente) encontrado = "Cliente";
+        return encontrado;
+    }
+%>

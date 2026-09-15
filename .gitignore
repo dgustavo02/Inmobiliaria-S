@@ -1,0 +1,13 @@
+# Archivos compilados por Java/Tomcat
+WEB-INF/classes/
+*.class
+
+# Archivos temporales
+*.tmp
+*.bak
+*.log
+
+# Configuración de IDE
+.vscode/
+.idea/
+*.iml

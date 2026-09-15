@@ -1,0 +1,217 @@
+</div>
+
+</main>
+
+
+<!-- =====================================================
+     FOOTER
+     ===================================================== -->
+
+<footer class="footer-inmobiliaria">
+
+    <div class="container">
+
+        <div class="row g-4">
+
+
+            <!-- INFORMACIÓN -->
+
+            <div class="col-lg-5">
+
+                <div class="footer-brand">
+
+                    <div class="footer-logo">
+
+                        <i class="bi bi-buildings"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h5>
+                            Inmobiliaria VSC
+                        </h5>
+
+                        <p>
+                            Encuentra el lugar ideal para vivir,
+                            invertir o comenzar una nueva etapa.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ENLACES -->
+
+            <div class="col-md-3 col-lg-2">
+
+                <h6>
+                    Enlaces
+                </h6>
+
+                <ul class="footer-links">
+
+                    <li>
+
+                        <a
+                            href="<%= request.getContextPath() %>/index.jsp">
+
+                            Inicio
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a
+                            href="<%= request.getContextPath() %>/catalogo.jsp">
+
+                            Propiedades
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a
+                            href="<%= request.getContextPath() %>/login.jsp">
+
+                            Iniciar sesión
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a
+                            href="<%= request.getContextPath() %>/registro.jsp">
+
+                            Registrarse
+
+                        </a>
+
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <!-- CONTACTO -->
+
+            <div class="col-md-4 col-lg-3">
+
+                <h6>
+                    Contacto
+                </h6>
+
+                <ul class="footer-contact">
+
+                    <li>
+
+                        <i class="bi bi-geo-alt"></i>
+
+                        Colombia
+
+                    </li>
+
+                    <li>
+
+                        <i class="bi bi-envelope"></i>
+
+                        contacto@inmobiliariavsc.com
+
+                    </li>
+
+                    <li>
+
+                        <i class="bi bi-telephone"></i>
+
+                        +57 300 000 0000
+
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <!-- REDES -->
+
+            <div class="col-md-5 col-lg-2">
+
+                <h6>
+                    Síguenos
+                </h6>
+
+                <div class="footer-social">
+
+                    <a
+                        href="#"
+                        aria-label="Facebook">
+
+                        <i class="bi bi-facebook"></i>
+
+                    </a>
+
+                    <a
+                        href="#"
+                        aria-label="Instagram">
+
+                        <i class="bi bi-instagram"></i>
+
+                    </a>
+
+                    <a
+                        href="#"
+                        aria-label="WhatsApp">
+
+                        <i class="bi bi-whatsapp"></i>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <hr class="footer-line">
+
+
+        <div class="footer-bottom">
+
+            <span>
+                © 2026 Inmobiliaria VSC
+            </span>
+
+            <span>
+                Sistema de gestión inmobiliaria
+            </span>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+<!-- =====================================================
+     BOOTSTRAP JAVASCRIPT
+     ===================================================== -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+</body>
+
+</html>

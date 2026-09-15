@@ -1,48 +1,71 @@
-<%--
-    conexion.jspf - Fragmento de conexión a la base de datos MySQL
-    Proyecto: Portal Inmobiliario
-    Ubicación: /WEB-INF/jspf/conexion.jspf
---%>
-<%@ page import="java.sql.*" %>
-<%!
-    /* parametros conexion */
-    public static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
-    public static final String DB_URL = 
-        "jdbc:mysql://localhost:3306/inmobiliaria_db"
-        + "?useSSL=false&allowPublicKeyRetrieval=true"
-        + "&serverTimezone=America/Bogota&characterEncoding=UTF-8";
-    public static final String DB_USUARIO = "root";
-    public static final String DB_CLAVE = "";
+<%@ page import="java.sql.Connection, java.sql.DriverManager, java.sql.SQLException" %>
 
-    /**
-     * Abre y devuelve una conexión nueva con la base de datos.
-     */
-    public Connection abrirConexion() throws SQLException {
+<%!
+    private static final String DB_URL =
+        "jdbc:mysql://b2corje15vpwt7w6v5te-mysql.services.clever-cloud.com:3306/b2corje15vpwt7w6v5te"
+        + "?useSSL=true"
+        + "&serverTimezone=UTC"
+        + "&characterEncoding=UTF-8"
+        + "&useUnicode=true";
+
+    private static final String DB_USER = "umjdxdso9l2ccyme";
+
+    private static final String DB_PASSWORD = "Fef8sOCaX0PMx9UEZTy4";
+
+    static {
         try {
-            Class.forName(DB_DRIVER);
-        } catch (ClassNotFoundException ex) {
-            throw new SQLException(
-                "No se encontró el driver de MySQL. Agregue mysql-connector-j-8.x.jar "
-                + "a la carpeta WEB-INF/lib del proyecto.", ex);
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            System.err.println(
+                "No se encontró el driver de MySQL: " + e.getMessage()
+            );
         }
-        return DriverManager.getConnection(DB_URL, DB_USUARIO, DB_CLAVE);
     }
 
-    /**
-     * Cierra en orden inverso cualquier recurso JDBC.
-     */
-    public void cerrar(AutoCloseable... recursos) {
-        for (int i = recursos.length - 1; i >= 0; i--) {
-            if (recursos[i] != null) {
-                try { recursos[i].close(); } catch (Exception ignorada) { }
+    public static Connection abrirConexion() throws SQLException {
+        return DriverManager.getConnection(
+            DB_URL,
+            DB_USER,
+            DB_PASSWORD
+        );
+    }
+
+    public static void cerrar(Object... recursos) {
+        if (recursos == null) {
+            return;
+        }
+
+        for (Object recurso : recursos) {
+            if (recurso instanceof java.sql.ResultSet) {
+                try {
+                    ((java.sql.ResultSet) recurso).close();
+                } catch (Exception e) {
+                }
+
+            } else if (recurso instanceof java.sql.Statement) {
+                try {
+                    ((java.sql.Statement) recurso).close();
+                } catch (Exception e) {
+                }
+
+            } else if (recurso instanceof java.sql.Connection) {
+                try {
+                    ((java.sql.Connection) recurso).close();
+                } catch (Exception e) {
+                }
             }
         }
     }
 
-    /** Deshace la transacción en curso. */
-    public void deshacer(Connection con) {
+    public static void deshacer(Connection con) {
         if (con != null) {
-            try { con.rollback(); } catch (SQLException ignorada) { }
+            try {
+                con.rollback();
+            } catch (SQLException e) {
+                System.err.println(
+                    "Error en rollback: " + e.getMessage()
+                );
+            }
         }
     }
 %>
