@@ -60,6 +60,10 @@
         }
 
 
+        /*
+         * Obtener el rol guardado en sesión.
+         */
+
         String rolActual =
             (String) sesion.getAttribute("rol");
 

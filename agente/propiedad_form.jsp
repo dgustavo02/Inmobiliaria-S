@@ -99,9 +99,9 @@
                     <select name="id_tipo" class="form-select" required>
                         <%
                             Statement st1 = con.createStatement();
-                            ResultSet rs1 = st1.executeQuery("SELECT id_tipo, nombre FROM tipo_propiedad WHERE estado = 1 ORDER BY nombre");
-                            while (rs1.next()) {
-                                boolean sel = rs1.getInt("id_tipo") == v_idTipo;
+ResultSet rs1 = st1.executeQuery("SELECT id_tipo, nombre FROM tipo_propiedad ORDER BY nombre");
+while (rs1.next()) {
+    boolean sel = rs1.getInt("id_tipo") == v_idTipo;
                         %>
                             <option value="<%= rs1.getInt("id_tipo") %>" <%= sel ? "selected" : "" %>><%= esc(rs1.getString("nombre")) %></option>
                         <%
